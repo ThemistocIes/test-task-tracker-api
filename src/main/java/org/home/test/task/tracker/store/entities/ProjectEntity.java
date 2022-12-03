@@ -33,5 +33,5 @@ public class ProjectEntity {
     @Builder.Default
     @OneToMany
     @JoinColumn(name = "project_id")
-    List<TasksCardEntity> tasksCards = new ArrayList<>();
+    List<TasksStateEntity> tasksStates = new ArrayList<>();
 }

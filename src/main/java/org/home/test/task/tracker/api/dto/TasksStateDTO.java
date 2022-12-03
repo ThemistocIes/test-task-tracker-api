@@ -5,13 +5,14 @@ import lombok.*;
 import lombok.experimental.FieldDefaults;
 
 import java.time.Instant;
+import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class TasksCardDTO {
+public class TasksStateDTO {
 
     @NonNull
     Long id;
@@ -23,6 +24,12 @@ public class TasksCardDTO {
     @JsonProperty("creation_time")
     Instant creationTime;
 
+    @JsonProperty("previous_tasks_state_id")
+    Long previousTasksSateId;
+
+    @JsonProperty("next_tasks_state_id")
+    Long nextTasksStateId;
+
     @NonNull
-    String ordinal;
+    List<TaskDTO> tasks;
 }
