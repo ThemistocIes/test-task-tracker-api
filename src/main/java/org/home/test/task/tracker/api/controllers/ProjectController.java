@@ -7,7 +7,6 @@ import org.home.test.task.tracker.api.controllers.helpers.ControllerHelper;
 import org.home.test.task.tracker.api.dto.AckDTO;
 import org.home.test.task.tracker.api.dto.ProjectDTO;
 import org.home.test.task.tracker.api.exceptions.BadRequestException;
-import org.home.test.task.tracker.api.exceptions.NotFoundException;
 import org.home.test.task.tracker.api.factories.ProjectFactoryDTO;
 import org.home.test.task.tracker.store.entities.ProjectEntity;
 import org.home.test.task.tracker.store.repositories.ProjectRepository;
@@ -44,7 +43,7 @@ public class ProjectController {
                 .map(projectRepository::streamAllByNameStartsWithIgnoreCase)
                 .orElseGet(projectRepository::streamAllBy);
 
-        return projectStream.map(projectFactoryDTO::createProjectDTO).collect(Collectors.toList());
+        return projectStream.map(projectFactoryDTO::buildProjectDTO).collect(Collectors.toList());
     }
 
     @PutMapping(CREATE_OR_UPDATE_PROJECT)
@@ -76,7 +75,7 @@ public class ProjectController {
 
         final ProjectEntity savedProject = projectRepository.saveAndFlush(project);
 
-        return projectFactoryDTO.createProjectDTO(savedProject);
+        return projectFactoryDTO.buildProjectDTO(savedProject);
     }
 
     @DeleteMapping(DELETE_PROJECT)

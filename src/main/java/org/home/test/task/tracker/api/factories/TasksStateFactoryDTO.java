@@ -16,7 +16,7 @@ public class TasksStateFactoryDTO {
 
     TaskFactoryDTO taskFactoryDTO;
 
-    public TasksStateDTO createTasksStateDTO(TasksStateEntity entity) {
+    public TasksStateDTO buildTasksStateDTO(TasksStateEntity entity) {
 
         return TasksStateDTO.builder()
                 .id(entity.getId())
@@ -27,7 +27,7 @@ public class TasksStateFactoryDTO {
                 .tasks(entity
                                 .getTasks()
                                 .stream()
-                                .map(taskFactoryDTO::createTaskDTO)
+                                .map(taskFactoryDTO::buildTaskDTO)
                                 .collect(Collectors.toList())
                 )
                 .build();

@@ -42,7 +42,7 @@ public class TaskController {
         return tasksState
                 .getTasks()
                 .stream()
-                .map(taskFactoryDTO::createTaskDTO)
+                .map(taskFactoryDTO::buildTaskDTO)
                 .collect(Collectors.toList());
     }
 
@@ -91,7 +91,7 @@ public class TaskController {
 
         final TaskEntity taskSaved = taskRepository.saveAndFlush(task);
 
-        return taskFactoryDTO.createTaskDTO(taskSaved);
+        return taskFactoryDTO.buildTaskDTO(taskSaved);
     }
 
     @PatchMapping(UPDATE_TASK)
@@ -120,7 +120,7 @@ public class TaskController {
         task.setDescription(description);
         task = taskRepository.saveAndFlush(task);
 
-        return taskFactoryDTO.createTaskDTO(task);
+        return taskFactoryDTO.buildTaskDTO(task);
     }
 
     @PatchMapping(SHIFT_TASKS_POSITION)
@@ -133,7 +133,7 @@ public class TaskController {
         TasksStateEntity tasksState = task.getTasksState();
 
         if (task.getPreviousTask().map(TaskEntity::getId).equals(optionalPreviousTaskId)) {
-            return taskFactoryDTO.createTaskDTO(task);
+            return taskFactoryDTO.buildTaskDTO(task);
         }
 
         Optional<TaskEntity> optionalPreviousTaskShifted = optionalPreviousTaskId
@@ -189,7 +189,7 @@ public class TaskController {
         optionalNextTaskShifted
                 .ifPresent(taskRepository::saveAndFlush);
 
-        return taskFactoryDTO.createTaskDTO(task);
+        return taskFactoryDTO.buildTaskDTO(task);
     }
 
     @DeleteMapping(DELETE_TASK)

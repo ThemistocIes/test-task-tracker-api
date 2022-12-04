@@ -43,7 +43,7 @@ public class TasksStateController {
         return project
                 .getTasksStates()
                 .stream()
-                .map(tasksStateFactoryDTO::createTasksStateDTO)
+                .map(tasksStateFactoryDTO::buildTasksStateDTO)
                 .collect(Collectors.toList());
     }
 
@@ -86,7 +86,7 @@ public class TasksStateController {
 
         final TasksStateEntity tasksStateSaved = tasksStateRepository.saveAndFlush(tasksState);
 
-        return tasksStateFactoryDTO.createTasksStateDTO(tasksStateSaved);
+        return tasksStateFactoryDTO.buildTasksStateDTO(tasksStateSaved);
     }
 
     @PatchMapping(UPDATE_TASKS_STATE)
@@ -113,7 +113,7 @@ public class TasksStateController {
 
         tasksState = tasksStateRepository.saveAndFlush(tasksState);
 
-        return tasksStateFactoryDTO.createTasksStateDTO(tasksState);
+        return tasksStateFactoryDTO.buildTasksStateDTO(tasksState);
     }
 
     @PatchMapping(SHIFT_TASKS_STATES_POSITION)
@@ -126,7 +126,7 @@ public class TasksStateController {
         ProjectEntity project = tasksState.getProject();
 
         if (tasksState.getPreviousTasksState().map(TasksStateEntity::getId).equals(optionalPreviousTasksStateId)) {
-            return tasksStateFactoryDTO.createTasksStateDTO(tasksState);
+            return tasksStateFactoryDTO.buildTasksStateDTO(tasksState);
         }
 
         Optional<TasksStateEntity> optionalPreviousTasksStateShifted = optionalPreviousTasksStateId
@@ -182,7 +182,7 @@ public class TasksStateController {
         optionalNextTasksStateShifted
                 .ifPresent(tasksStateRepository::saveAndFlush);
 
-        return tasksStateFactoryDTO.createTasksStateDTO(tasksState);
+        return tasksStateFactoryDTO.buildTasksStateDTO(tasksState);
     }
 
     @DeleteMapping(DELETE_TASKS_STATE)

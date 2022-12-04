@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProjectFactoryDTO {
 
-    public ProjectDTO createProjectDTO(ProjectEntity entity) {
+    public ProjectDTO buildProjectDTO(ProjectEntity entity) {
 
         return ProjectDTO.builder()
                 .id(entity.getId())
