@@ -130,7 +130,7 @@ public class TaskController {
 
         TaskEntity task = getTask(taskId);
 
-        TasksStateEntity tasksStat = task.getTasksState();
+        TasksStateEntity tasksState = task.getTasksState();
 
         if (task.getPreviousTask().map(TaskEntity::getId).equals(optionalPreviousTaskId)) {
             return taskFactoryDTO.createTaskDTO(task);
@@ -143,7 +143,7 @@ public class TaskController {
                         throw new BadRequestException("Previous task ID equal to shifting task ID");
                     }
 
-                    if (!tasksStat.getId().equals(getTask(previousTaskId).getTasksState().getId())) {
+                    if (!tasksState.getId().equals(getTask(previousTaskId).getTasksState().getId())) {
                         throw new BadRequestException("Tasks state position can be changed only in one tasks state");
                     }
 
@@ -152,7 +152,7 @@ public class TaskController {
 
         Optional<TaskEntity> optionalNextTaskShifted;
         if (optionalPreviousTaskShifted.isEmpty()) {
-            optionalNextTaskShifted = tasksStat
+            optionalNextTaskShifted = tasksState
                     .getTasks()
                     .stream()
                     .filter(anotherTask -> anotherTask.getPreviousTask().isEmpty())
