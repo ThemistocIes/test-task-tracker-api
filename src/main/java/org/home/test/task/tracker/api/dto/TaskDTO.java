@@ -24,4 +24,10 @@ public class TaskDTO {
 
     @NonNull
     String description;
+
+    @JsonProperty("previous_task_id")
+    Long previousTaskId;
+
+    @JsonProperty("next_task_id")
+    Long nextTaskId;
 }

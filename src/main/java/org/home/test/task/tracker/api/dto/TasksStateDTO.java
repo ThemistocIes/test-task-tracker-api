@@ -25,7 +25,7 @@ public class TasksStateDTO {
     Instant creationTime;
 
     @JsonProperty("previous_tasks_state_id")
-    Long previousTasksSateId;
+    Long previousTasksStateId;
 
     @JsonProperty("next_tasks_state_id")
     Long nextTasksStateId;

@@ -22,7 +22,7 @@ public class TasksStateFactoryDTO {
                 .id(entity.getId())
                 .name(entity.getName())
                 .creationTime(entity.getCreationTime())
-                .previousTasksSateId(entity.getPreviousTasksState().map(TasksStateEntity::getId).orElse(null))
+                .previousTasksStateId(entity.getPreviousTasksState().map(TasksStateEntity::getId).orElse(null))
                 .nextTasksStateId(entity.getNextTasksState().map(TasksStateEntity::getId).orElse(null))
                 .tasks(entity
                                 .getTasks()

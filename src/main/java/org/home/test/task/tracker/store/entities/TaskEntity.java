@@ -5,6 +5,7 @@ import lombok.experimental.FieldDefaults;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.Optional;
 
 @Entity
 @Table(name = "task")
@@ -25,4 +26,24 @@ public class TaskEntity {
     Instant creationTime = Instant.now();
 
     String description;
+
+    @OneToOne
+    TaskEntity previousTask;
+
+    @OneToOne
+    TaskEntity nextTask;
+
+    @ManyToOne
+    ProjectEntity project;
+
+    @ManyToOne
+    TasksStateEntity tasksState;
+
+    public Optional<TaskEntity> getPreviousTask() {
+        return Optional.ofNullable(previousTask);
+    }
+
+    public Optional<TaskEntity> getNextTask() {
+        return Optional.ofNullable(nextTask);
+    }
 }
