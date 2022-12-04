@@ -96,28 +96,30 @@ public class TaskController {
 
     @PatchMapping(UPDATE_TASK)
     public TaskDTO updateTask(@PathVariable(name = "task_id") Long taskId,
-                              @RequestParam(name = "task_name") String taskName,
-                              @RequestParam(name = "description") String description) {
+                              @RequestParam(name = "task_name", required = false) String taskName,
+                              @RequestParam(name = "description", required = false) String description) {
 
-        if (taskName.isBlank()) {
-            throw new BadRequestException("Task name is empty");
-        }
-
-        if (description.isBlank()) {
-            throw new BadRequestException("Description is empty");
+        if (taskName == null && description == null) {
+            throw new BadRequestException("Nothing to update");
         }
 
         TaskEntity task = getTask(taskId);
 
-        taskRepository
-                .findTaskEntityByTasksStateIdAndNameContainsIgnoreCase(task.getTasksState().getId(), taskName)
-                .filter(anotherTask -> !anotherTask.getId().equals(taskId))
-                .ifPresent(anotherTask -> {
-                    throw new BadRequestException("Task with that name already exists");
-                });
+        if (taskName != null && !taskName.isBlank()) {
+            taskRepository
+                    .findTaskEntityByTasksStateIdAndNameContainsIgnoreCase(task.getTasksState().getId(), taskName)
+                    .filter(anotherTask -> !anotherTask.getId().equals(taskId))
+                    .ifPresent(anotherTask -> {
+                        throw new BadRequestException("Task with that name already exists");
+                    });
 
-        task.setName(taskName);
-        task.setDescription(description);
+            task.setName(taskName);
+        }
+
+        if (description != null && !description.isBlank()) {
+            task.setDescription(description);
+        }
+
         task = taskRepository.saveAndFlush(task);
 
         return taskFactoryDTO.buildTaskDTO(task);
